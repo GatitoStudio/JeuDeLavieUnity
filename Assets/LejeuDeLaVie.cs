@@ -16,16 +16,20 @@ public class LejeuDeLaVie : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //n-1
         lescellules = new int[taille, taille];
+        //n , la prochaine configuration 
         lescellulesApres = new int[taille, taille];
-
+        //Pour afficher 
         lesgo = new GameObject[taille, taille];
-        LeJeu();
-        StartCoroutine(PUATIN());
+
+        Initialisation();
+        StartCoroutine(Lejeu());
     }
 
-    public void LeJeu()
+    public void Initialisation()
     {
+        //Je mets tout a 0 
         for (int i = 0; i < taille; i++)
         {
             for (int j = 0; j < taille; j++)
@@ -36,6 +40,7 @@ public class LejeuDeLaVie : MonoBehaviour
                 lescellulesApres[i, j] = 0;
             }
         }
+        //Random Population
         for (int i = 0; i < nbrPopulation; i++)
         {
             int x = Random.Range(0, taille);
@@ -56,16 +61,19 @@ public class LejeuDeLaVie : MonoBehaviour
         //lescellules[7, 5] = 1;
         //lesgo[7, 5].GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
     }
-    IEnumerator PUATIN()
+    IEnumerator Lejeu()
     {
+        //C'est degueulasse j'ai fais une boucle infinie , on pourrais faire un boolean controler par un bouton 
         while (true)
         {
+            //Pour chaque element du tableau (ou pour chaque population 
             for (int x = 0; x < taille; x++)
             {
                 for (int y = 0; y < taille; y++)
                 {
                     int NbrVoisin = 0;
                     int etat = lescellules[x, y];
+                    //Verification des 8 potentiels voisins 
                     if (x - 1 > -1)
                     {
                         if (lescellules[x - 1, y] == 1)
@@ -122,6 +130,7 @@ public class LejeuDeLaVie : MonoBehaviour
                             NbrVoisin++;
                         }
                     }
+                    //Etat a l'iteration suivante
                     if (etat == 1)
                     {
                         if (NbrVoisin != 3 && NbrVoisin != 2)
@@ -144,6 +153,7 @@ public class LejeuDeLaVie : MonoBehaviour
                 }
 
             }
+            //j'applique et j'update
             for (int x = 0; x < taille; x++)
             {
                 for (int y = 0; y < taille; y++)
@@ -160,9 +170,9 @@ public class LejeuDeLaVie : MonoBehaviour
         }
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        
     }
 }
